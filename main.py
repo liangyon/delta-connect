@@ -94,7 +94,6 @@ class GameSyncApp(QMainWindow):
 
         # Dropbox connection section
         dropbox_layout = QHBoxLayout()
-        self.dropbox_button = QPushButton("Connect to Dropbox")
         self.dropbox_button.clicked.connect(self.connect_to_dropbox)
         dropbox_layout.addWidget(self.dropbox_button)
 
