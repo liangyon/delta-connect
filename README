@@ -1,0 +1,18 @@
+TODO LIST
+
+
+IMPLEMENT FLOW
+
+1. user opens app, has to do 3 things
+- import and locate their Delta.sqlite
+- login to their dropbox, and locate the Delta folder (or we can locate for them)
+- locate the local saves folder to be synced
+once we have all these, we will put in config which will be loaded up and read everytime so these steps are skipped
+
+
+2. implement syncing 
+- check the timestamps for each save against each other,
+- for each discovery, put into a queue to execute (2 for up and down maybe?)
+- make a conversion function, that automatically renames the files as they go up and down based on Delta's headers
+
+3. complete 
