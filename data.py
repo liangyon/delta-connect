@@ -2,8 +2,9 @@ import sqlite3
 import os
 import hashlib
 
+
 def get_games(database_path):
-    conn = sqlite3.connect("./Delta.sqlite")
+    conn = sqlite3.connect(database_path)
     cursor = conn.cursor()
     cursor.execute("SELECT ZNAME, ZIdentifier FROM zgame")
     games = cursor.fetchall()
@@ -18,7 +19,8 @@ def get_file_hash(file_path):
             hasher.update(chunk)
     return hasher.hexdigest()
 
+
 def sync_files(local_file, remote_file):
     if get_file_hash(local_file) != get_file_hash(remote_file):
-        # Perform sync logic here
+        # sync logic here
         pass

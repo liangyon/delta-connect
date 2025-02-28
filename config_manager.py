@@ -15,6 +15,12 @@ class ConfigManager:
             "local_saves_path": ""
         }
         self.load_config()
+        
+    def set_config(self, config, value):
+        """Setter for configs
+        """
+        self.config[config] = value
+        self.save_config()
     
     def load_config(self):
         if os.path.exists(self.config_path):
