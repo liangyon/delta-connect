@@ -15,4 +15,6 @@ once we have all these, we will put in config which will be loaded up and read e
 - for each discovery, put into a queue to execute (2 for up and down maybe?)
 - make a conversion function, that automatically renames the files as they go up and down based on Delta's headers
 
+TODO: Dropbox header path isn't being sent to the upload item, causing a NONE type error for the path. 
+
 3. complete 

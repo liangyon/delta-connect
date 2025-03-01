@@ -4,12 +4,14 @@ from data import get_games
 import sys
 import logging
 
-from PySide6.QtWidgets import QFileDialog, QMessageBox, QHBoxLayout
+from PySide6.QtWidgets import QFileDialog, QMessageBox, QHBoxLayout, QProgressDialog
 
 import os
 
 from config_manager import ConfigManager
 from dropbox_manager import DropboxManager
+from sync_manager import SyncManager
+
 
 
 logging.basicConfig(level=logging.INFO)
@@ -28,7 +30,7 @@ class GameSyncApp(QMainWindow):
 
         self.config_manager = ConfigManager()
         self.dropbox_manager = DropboxManager(self.config_manager)
-        
+
         self.dropbox_label = QLabel(
             "Dropbox not connected", alignment=Qt.AlignCenter)
         self.dropbox_button = QPushButton("Connect to Dropbox")
@@ -240,9 +242,40 @@ class GameSyncApp(QMainWindow):
             self.sync_button.setEnabled(False)
 
     def sync_files(self):
-        """_summary_
+        """call upon the sync manager to execute the entire process
+        1. analyse the db by quering zgame and zgamesave using data.py
+        2. scan local saves to find which games have local saves and get timestamps
+        3. scan delta emulator folder on dropbox to see which games have remote and get timestamps
+        4. for each game that EXISTS IN BOTH compare and match most recent
+        5. process the transactions, upload/download, rename to delta's conventions
         """
-        pass
+        # record our progress as we go
+        progress = QProgressDialog("Syncing files", "Cancel", 0, 100, self)
+        progress.setWindowModality(Qt.WindowModal)
+        progress.setValue(0)
+        progress.setMinimumDuration(0)
+        progress.show()
+
+        sync_manager = SyncManager(
+            self.config_manager, self.dropbox_manager)
+        
+        def progress_callback(current, total, message, success):
+            if progress.wasCanceled():
+                return
+            percent = int((current / total) * 100) if total > 0 else 0
+            progress.setValue(percent)
+            progress.setLabelText(message)
+            self.log_message(message, not success)
+            
+        success, message = sync_manager.run_sync(progress_callback)
+        progress.setValue(100)
+        progress.hide()
+
+        if success:
+            QMessageBox.information(self, "Sync Complete", message)
+        else:
+            QMessageBox.critical(self, "Sync Failed", message)
+
 
     def log_message(self, message, is_error=False):
         """Add a message to the sync log"""

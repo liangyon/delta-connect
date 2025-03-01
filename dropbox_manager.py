@@ -138,6 +138,8 @@ class DropboxManager:
 
     def upload_file(self, local_path, dropbox_path):
         """Upload a file from local path to Dropbox"""
+        print(local_path, dropbox_path)
+        
         if not self.dbx:
             return False
 
@@ -149,8 +151,10 @@ class DropboxManager:
                     mode=dropbox.files.WriteMode.overwrite
                 )
             return True
-        except Exception:
+        except Exception as e:
+            print(f"Error uploading file: {e}")
             return False
+            
 
     def get_file_metadata(self, path):
         """Get metadata for a file including last modified time"""
