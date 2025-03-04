@@ -1,5 +1,11 @@
 TODO LIST
 
+how to get started
+1. start your virtual environment (pip)
+2. install the pip packages
+3. run main.py
+
+you'll need a dropbox account, local file folder, and a delta.db file from your phone (instructions later)
 
 IMPLEMENT FLOW
 
@@ -16,5 +22,6 @@ once we have all these, we will put in config which will be loaded up and read e
 - make a conversion function, that automatically renames the files as they go up and down based on Delta's headers
 
 TODO: Dropbox header path isn't being sent to the upload item, causing a NONE type error for the path. 
+maybe rethink the system
 
 3. complete 
